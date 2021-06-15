@@ -149,6 +149,7 @@ int keyFormat(char key[])
             string[k++] = string [i];
         }
 	}
+    
     strcpy(key, string);
 
     return 0;
