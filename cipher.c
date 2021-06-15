@@ -117,7 +117,7 @@ Q   R   S
 #define alphabet "ABCDEFGHIKLMNOPQRSTUVWXYZ"
 
 int keyFormat(char key[]); //removes repeated characters from string
-int makeGrid(char formatted_key[], int grid[5][5]); //makes grid with formatted key consisting of only unique letters
+int makeGrid(char formatted_key[], int row, int col, char grid[row][col]); //makes grid with formatted key consisting of only unique letters
 int inputFormat(char input[]); //formats input according to decided conditions
 int encrypt(int grid[], char formatted_string[]); //encrypts formatted string wrt a given grid
 int decrypt(int grid[], char encrypted_string[]); //decrypts encrypted string wrt a given grid
@@ -134,45 +134,36 @@ int keyFormat(char key[])
     strcpy(string, key);
     strcat(string, alphabet);
 
-    for (int i = 0; i < strlen(string); i++) // remove repeated characters
+
+    int i, j , k = 0;
+    for (i = 0; i < strlen(string); i++) // remove repeated characters
   	{
-  		for (int j = i + 1; string[j] != '\0'; j++)
+  		for (j = 0; j < i; j++)
   		{
   			if (string[j] == string[i])  
 			{
-  				for (int k = j; string[k] != '\0'; k++)
-				{
-					string[k] = string[k + 1];
-				}
+                break;
  			}
 		}
+        if (j == i && string[j] != 'J')
+        {
+            string[k++] = string [i];
+        }
 	}
     strcpy(key, string);
 
     return 0;
 }
 
-int makeGrid(char formatted_key[], int grid[5][5])
+int makeGrid(char formatted_key[], int row, int col, char grid[row][col])
 {
-    for (int i = 0; i < 5;)
+    int i = 0;
+    for (int row = 0; row < 5; row++)
     {
-        for (int j = 0; j < 5;)
+        for (int col = 0; col < 5; col++)
         {
-            for (int k = 0; k < strlen(formatted_key);)
-            {
-                grid[i][j] = formatted_key[k];
-                if (j == 4)
-                {
-                    j = 0;
-                    i++;
-                    k++;
-                }
-                else
-                {
-                    j++;
-                    k++;
-                }
-            }
+            grid[row][col] = formatted_key[i];
+            i++;
         }
     }
 
