@@ -132,8 +132,7 @@ int keyFormat(char key[])
 
     char string[60];
     strcpy(string, key);
-    strcat(string, alphabet); //add all letters to key
-
+    strcat(string, alphabet);
 
     int i, j , k = 0;
     for (i = 0; i < strlen(string); i++) // remove repeated characters
