@@ -132,7 +132,7 @@ int keyFormat(char key[])
 
     char string[60];
     strcpy(string, key);
-    strcat(string, alphabet);
+    strcat(string, alphabet); //add all letters to key
 
 
     int i, j , k = 0;
