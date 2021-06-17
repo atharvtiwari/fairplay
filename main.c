@@ -5,7 +5,7 @@
 int main()
 {
     const int row = 5, col = 5;
-    char key[26], grid[row][col];
+    char key[1000], grid[row][col];
 
     printf("Enter keyword: ");
     scanf("%s", key);

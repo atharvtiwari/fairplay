@@ -130,7 +130,7 @@ int keyFormat(char key[])
         key[i] = toupper(ch);
     }
 
-    char string[60];
+    char string[1000];
     strcpy(string, key);
     strcat(string, alphabet);
 
