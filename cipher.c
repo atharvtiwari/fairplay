@@ -152,6 +152,8 @@ int keyFormat(char key[])
     
     strcpy(key, string);
 
+    key[25] = '\0';
+
     return 0;
 }
 

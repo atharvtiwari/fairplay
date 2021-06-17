@@ -11,17 +11,21 @@ int main()
     scanf("%s", key);
 
     keyFormat(key);
-    printf("Formatted key: %.25s\n", key);
+    //printf("%I64d\n", strlen(key));
+    printf("Formatted key: %s\n", key);
 
     makeGrid(key, row, col, grid);
+    printf("Key grid:\n\n");
     for (int i = 0; i < 5; i++)
     {
+        printf("\t");
         for (int j = 0; j < 5; j++)
         {
-            printf("%c ", grid[i][j]);
+            printf("%c  ", grid[i][j]);
         }
         printf("\n");
     }
+    printf("\n");
 
     return 0;
 }
