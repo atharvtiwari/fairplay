@@ -11,7 +11,7 @@ int main()
     scanf("%s", key);
 
     keyFormat(key);
-    printf("Formatted key: %s\n", key);
+    printf("Formatted key: %.25s\n", key);
 
     makeGrid(key, row, col, grid);
     for (int i = 0; i < 5; i++)
