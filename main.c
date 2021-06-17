@@ -5,9 +5,9 @@
 int main()
 {
     const int row = 5, col = 5;
-    char key[30], grid[row][col];
+    char key[26], grid[row][col];
 
-    printf("Enter keyword (preferably without repeated letters or 'j'): ");
+    printf("Enter keyword: ");
     scanf("%s", key);
 
     keyFormat(key);
