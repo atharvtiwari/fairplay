@@ -53,8 +53,6 @@ Take key input and format it using the above algorithm for keys, removing repeat
 Form a grid using the above algorithm.
 Take input to be encrypted and format it using the above algorithm for strings.
 
-
-
 1> take letters in pairs from formatted input
 ex: QWERTY --> QW ER TY
 
@@ -152,12 +150,12 @@ int keyFormat(char key[])
     
     strcpy(key, string);
 
-    key[25] = '\0';
+    key[25] = '\0'; // truncate formatted key to remove junk
 
     return 0;
 }
 
-int makeGrid(char formatted_key[], int row, int col, char grid[row][col])
+int makeGrid(char formatted_key[], int row, int col, char grid[row][col]) //string to 2d array
 {
     int i = 0;
     for (int row = 0; row < 5; row++)

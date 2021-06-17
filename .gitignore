@@ -53,3 +53,8 @@ dkms.conf
 
 # VS Code
 .vscode/
+
+# Archives
+.7z
+.zip
+.rar
