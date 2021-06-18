@@ -12,12 +12,14 @@ int main()
 
     inputFormat(input);
     printf("Formatted message: %s\n", input);
+    printf("%I64d\n", strlen(input));
 
-    printf("Enter keyword: ");
+    /*printf("Enter keyword: ");
     scanf("%s", key);
 
     keyFormat(key);
     printf("Formatted key: %s\n", key);
+    printf("%I64d\n", strlen(key));
 
     makeGrid(key, row, col, grid);
     printf("Key grid:\n\n");
@@ -30,7 +32,7 @@ int main()
         }
         printf("\n");
     }
-    printf("\n");
+    printf("\n");*/
 
     return 0;
 }

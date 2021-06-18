@@ -184,31 +184,32 @@ int inputFormat(char input[])
     {
         if (ispunct(input[i]) || input[i] == ' ')
         {
-            for (int j = i; j < len; j++)
+            for (int j = i; j < len - 1; j++)
             {
                 input[j] = input[j + 1];
             }
             len--;
         }
     }
-
+    input[len] = '\0'; // truncate to remove junk
+    
     char string[10000];
     strcpy(string, input);
 
     if (len % 2 == 0) // even number of characters
     {
-        for (int i = 1; i < len; i += 2) // taken in pairs
+        for (int i = 1; i <= len; i += 2) // taken in pairs
         {
             if (string[i] == string[i - 1]) //repeating character
             {
-                for (int j = len; j >= i; j--)
+                for (int j = len - 1; j >= i; j--)
                 {
                     string[j + 1] = string[j];
                 }
                 len++;
-                for (int j = len; j >= i + 2; j--)
+                for (int j = len; j > i; j--)
                 {
-                    string[j + 1] = string[j];
+                    string[j] = string[j - 1];
                 }
                 len++;
                 if (string[i] == 'X')
@@ -226,17 +227,16 @@ int inputFormat(char input[])
     }
     else // odd number of characters
     {
-        string[len] = 'X'; // add 'X' to the end to make even
+        string[len] = 'X'; // adding 'X' at the end to make even
         len++;
-        for (int i = 1; i < len; i += 2) // taken in pairs
+        for (int i = 1; i <= len; i += 2) // taken in pairs
         {
             if (string[i] == string[i - 1]) //repeating character
             {
-                for (int j = len - 2; j >= i; j--)
+                for (int j = len - 1; j > i; j--)
                 {
-                    string[j + 1] = string[j];
+                    string[j] = string[j - 1];
                 }
-                len++;
                 if (string[i] == 'X')
                 {
                     string[i] = 'Q';
@@ -245,8 +245,15 @@ int inputFormat(char input[])
                 {
                     string[i] = 'X';
                 }
+                string[len] = 'X'; // adding 'X' at the end to make odd
+                len++;
             }
         }
+    }
+
+    if (len % 2 == 1)
+    {
+        string[len - 1] = '\0'; // truncate to remove junk
     }
 
     strcpy(input, string);
