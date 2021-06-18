@@ -189,11 +189,6 @@ int inputFormat(char input[])
                 input[j] = input[j + 1];
             }
             len--;
-            if (len % 2 == 0)
-            {
-                input[len] = 'X';
-                len++;
-            }
         }
     }
 

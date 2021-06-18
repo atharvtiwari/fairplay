@@ -11,16 +11,16 @@ int main()
     scanf("%[^\n]s", input);
 
     inputFormat(input);
-    //printf("Formatted message: %s\n", input);
+    printf("Formatted message: %s\n", input);
 
     printf("Enter keyword: ");
     scanf("%s", key);
 
     keyFormat(key);
-    //printf("Formatted key: %s\n", key);
+    printf("Formatted key: %s\n", key);
 
     makeGrid(key, row, col, grid);
-    /*printf("Key grid:\n\n");
+    printf("Key grid:\n\n");
     for (int i = 0; i < 5; i++)
     {
         printf("\t");
@@ -30,7 +30,7 @@ int main()
         }
         printf("\n");
     }
-    printf("\n");*/
+    printf("\n");
 
     return 0;
 }
