@@ -169,3 +169,92 @@ int makeGrid(char formatted_key[], int row, int col, char grid[row][col]) //stri
 
     return 0;
 }
+
+int inputFormat(char input[])
+{
+    int len = strlen(input);
+
+    for (int i = 0; i < len; i++) // input to uppercase
+    {
+        char ch = input[i];
+        input[i] = toupper(ch);
+    }
+    
+    for (int i = 0; i < len; i++) // remove whitespaces and punctuation
+    {
+        if (ispunct(input[i]) || input[i] == ' ')
+        {
+            for (int j = i; j < len; j++)
+            {
+                input[j] = input[j + 1];
+            }
+            len--;
+            if (len % 2 == 0)
+            {
+                input[len] = 'X';
+                len++;
+            }
+        }
+    }
+
+    char string[10000];
+    strcpy(string, input);
+
+    if (len % 2 == 0) // even number of characters
+    {
+        for (int i = 1; i < len; i += 2) // taken in pairs
+        {
+            if (string[i] == string[i - 1]) //repeating character
+            {
+                for (int j = len; j >= i; j--)
+                {
+                    string[j + 1] = string[j];
+                }
+                len++;
+                for (int j = len; j >= i + 2; j--)
+                {
+                    string[j + 1] = string[j];
+                }
+                len++;
+                if (string[i] == 'X')
+                {
+                    string[i] = 'Q';
+                    string[i + 2] = 'Q';
+                }
+                else
+                {
+                    string[i] = 'X';
+                    string[i + 2] = 'X';
+                }
+            }
+        }
+    }
+    else // odd number of characters
+    {
+        string[len] = 'X'; // add 'X' to the end to make even
+        len++;
+        for (int i = 1; i < len; i += 2) // taken in pairs
+        {
+            if (string[i] == string[i - 1]) //repeating character
+            {
+                for (int j = len - 2; j >= i; j--)
+                {
+                    string[j + 1] = string[j];
+                }
+                len++;
+                if (string[i] == 'X')
+                {
+                    string[i] = 'Q';
+                }
+                else
+                {
+                    string[i] = 'X';
+                }
+            }
+        }
+    }
+
+    strcpy(input, string);
+
+    return 0;
+}
