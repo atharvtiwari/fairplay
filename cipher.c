@@ -180,21 +180,23 @@ int inputFormat(char input[])
         input[i] = toupper(ch);
     }
     
-    for (int i = 0; i < len; i++) // remove whitespaces and punctuation
+    char temp[len];
+    int i = 0, j = 0;
+    while (input[i] != '\0') // remove whitespaces and punctuation
     {
-        if (ispunct(input[i]) || input[i] == ' ')
+        if (!ispunct(input[i]) && !isspace(input[i]))
         {
-            for (int j = i; j < len - 1; j++)
-            {
-                input[j] = input[j + 1];
-            }
-            len--;
+            temp[j++] = input[i];
         }
+        i++;
     }
-    input[len] = '\0'; // truncate to remove junk
+    temp[j] = '\0'; // truncate to remove junk
+    len = j;
+
+    //printf("%s %d\n", temp, len);
     
     char string[10000];
-    strcpy(string, input);
+    strcpy(string, temp);
 
     if (len % 2 == 0) // even number of characters
     {
