@@ -6,3 +6,6 @@ main.o: main.c
 
 cipher.o: cipher.c
 	gcc -Wall -c cipher.c -o cipher.o
+
+clean:
+	rm -f main.o cipher.o

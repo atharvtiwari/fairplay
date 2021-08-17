@@ -114,12 +114,6 @@ Q   R   S
 
 #define alphabet "ABCDEFGHIKLMNOPQRSTUVWXYZ"
 
-int keyFormat(char key[]); //removes repeated characters from string
-int makeGrid(char formatted_key[], int row, int col, char grid[row][col]); //makes grid with formatted key consisting of only unique letters
-int inputFormat(char input[]); //formats input according to decided conditions
-int encrypt(int grid[], char formatted_string[]); //encrypts formatted string wrt a given grid
-int decrypt(int grid[], char encrypted_string[]); //decrypts encrypted string wrt a given grid
-
 int keyFormat(char key[])
 {
     for (int i = 0; i < strlen(key); i++) // key to uppercase
@@ -155,7 +149,7 @@ int keyFormat(char key[])
     return 0;
 }
 
-int makeGrid(char formatted_key[], int row, int col, char grid[row][col]) //string to 2d array
+int makeGrid(char formatted_key[], char grid[5][5]) //string to 2d array
 {
     int i = 0;
     for (int row = 0; row < 5; row++)
@@ -170,7 +164,7 @@ int makeGrid(char formatted_key[], int row, int col, char grid[row][col]) //stri
     return 0;
 }
 
-int inputFormat(char input[])
+int inputFormat(char input[], int flag[])
 {
     int len = strlen(input);
 
@@ -181,23 +175,39 @@ int inputFormat(char input[])
     }
     
     char temp[len];
-    int i = 0, j = 0;
+    int i = 0, j = 0, k = 0, l = 0;
     while (input[i] != '\0') // remove whitespaces and punctuation
     {
         if (!ispunct(input[i]) && !isspace(input[i]))
         {
             temp[j++] = input[i];
         }
+        else
+        {
+            flag[k++] = i - l;
+            l++;
+        }
         i++;
     }
     temp[j] = '\0'; // truncate to remove junk
     len = j;
 
-    //printf("%s %d\n", temp, len);
+    //printf("%s %d %d %d\n", temp, len, flag_length, flag[0]);
+
+    i = 0, j = 0;
+    while (temp[i] != '\0') //replace 'J's with 'I's
+    {
+        if (temp[i] == 'J')
+        {
+            temp[i] = 'I';
+        }
+        i++;
+    }
     
     char string[10000];
     strcpy(string, temp);
 
+    i = 0, j = 0;
     if (len % 2 == 0) // even number of characters
     {
         for (int i = 1; i <= len; i += 2) // taken in pairs
@@ -259,6 +269,156 @@ int inputFormat(char input[])
     }
 
     strcpy(input, string);
+
+    return k;
+}
+
+int search(char grid[5][5], char a, char b, int arr[])
+{ 
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            if (grid[i][j] == a)
+            {
+                arr[0] = i;
+                arr[1] = j;
+            }
+            else if (grid[i][j] == b)
+            {
+                arr[2] = i;
+                arr[3] = j;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int encrypt(char grid[5][5], char formatted_string[])
+{
+    int arr[4];
+ 
+    for (int i = 0; i < strlen(formatted_string); i += 2) {
+        search(grid, formatted_string[i], formatted_string[i + 1], arr);
+        if (arr[0] == arr[2]) {
+            formatted_string[i] = grid[arr[0]][(arr[1] + 1) % 5];
+            formatted_string[i + 1] = grid[arr[0]][(arr[3] + 1) % 5];
+        }
+        else if (arr[1] == arr[3]) {
+            formatted_string[i] = grid[(arr[0] + 1) % 5][arr[1]];
+            formatted_string[i + 1] = grid[(arr[2] + 1) % 5][arr[1]];
+        }
+        else {
+            formatted_string[i] = grid[arr[0]][arr[3]];
+            formatted_string[i + 1] = grid[arr[2]][arr[1]];
+        }
+    }
+
+    return 0;
+}
+
+int decrypt(char grid[5][5], char encrypted_string[])
+{
+    int arr[4];
+    
+    for (int i = 0; i < strlen(encrypted_string); i += 2)
+    {
+        search(grid, encrypted_string[i], encrypted_string[i + 1], arr);
+        if (arr[0] == arr[2])
+        {
+            if (arr[1] == 0 && arr[3] == 0)
+            {
+                encrypted_string[i] = grid[arr[0]][4];
+                encrypted_string[i + 1] = grid[arr[0]][4];
+            }
+            else if (arr[1] == 0)
+            {
+                encrypted_string[i] = grid[arr[0]][4];
+                encrypted_string[i + 1] = grid[arr[0]][(arr[3] - 1) % 5];
+            }
+            else if (arr[3] == 0)
+            {
+                encrypted_string[i] = grid[arr[0]][(arr[1] - 1) % 5];
+                encrypted_string[i + 1] = grid[arr[0]][4];
+            }
+            else
+            {
+                encrypted_string[i] = grid[arr[0]][(arr[1] - 1) % 5];
+                encrypted_string[i + 1] = grid[arr[0]][(arr[3] - 1) % 5];
+            }
+        }
+        else if (arr[1] == arr[3])
+        {
+            if (arr[2] == 0 && arr[4] == 0)
+            {
+                encrypted_string[i] = grid[4][arr[1]];
+                encrypted_string[i + 1] = grid[4][arr[1]];
+            }
+            else if (arr[0] == 0)
+            {
+                encrypted_string[i] = grid[4][arr[1]];
+                encrypted_string[i + 1] = grid[(arr[2] - 1) % 5][arr[1]];
+            }
+            else if (arr[2] == 0)
+            {
+                encrypted_string[i] = grid[(arr[0] - 1) % 5][arr[1]];
+                encrypted_string[i + 1] = grid[4][arr[1]];
+            }
+            else
+            {
+                encrypted_string[i] = grid[(arr[0] - 1) % 5][arr[1]];
+                encrypted_string[i + 1] = grid[(arr[2] - 1) % 5][arr[1]];
+            }
+        }
+        else
+        {
+            encrypted_string[i] = grid[arr[0]][arr[3]];
+            encrypted_string[i + 1] = grid[arr[2]][arr[1]];
+        }
+    }
+
+    return 0;
+}
+
+int outputFormat(char decrypted_string[], int flag[], int flag_length)
+{
+    int i = 0, j = 0, len = strlen(decrypted_string);
+    char temp[len], temp2[len];
+    
+    while (decrypted_string[i] != '\0')
+    {
+        if (decrypted_string[i] == 'X' && decrypted_string[i - 1] == decrypted_string[i + 1]);
+        else if (decrypted_string[i] == 'X' && decrypted_string[i - 2] == 'X'&& decrypted_string[i - 1] == decrypted_string[i - 3]);
+        else
+        {
+            temp[j++] = decrypted_string[i];
+        }
+        i++;
+    }
+    temp[j] = '\0'; // truncate to remove junk
+    len = j;
+
+    i = 0, j = 0;
+    while (temp[i] != '\0')
+    {
+        for (int k = 0; k < flag_length; k++)
+        {
+            if (i == flag[k])
+            {
+                if (!isspace(temp2[j - 1]))
+                {
+                    temp2[j++] = ' ';
+                }
+            }
+        }
+        temp2[j++] = temp[i];
+        i++;
+    }
+    temp2[j] = '\0'; // truncate to remove junk
+    len = j;
+
+    strcpy(decrypted_string, temp2);
 
     return 0;
 }
